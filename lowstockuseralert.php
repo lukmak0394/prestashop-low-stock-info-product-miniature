@@ -36,7 +36,7 @@ class LowStockUserAlert extends Module
     {
         $this->name = 'LowStockUserAlert';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '1.1.0';
         $this->author = 'Łukasz Makowski';
         $this->need_instance = 0;
 
@@ -64,7 +64,8 @@ class LowStockUserAlert extends Module
         return parent::install() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
-            $this->registerHook('displayProductListReviews');
+            $this->registerHook('displayProductAdditionalInfo') &&
+            $this->registerHook('displayProductListReviews') ;
     }
 
     public function uninstall()
@@ -250,6 +251,10 @@ class LowStockUserAlert extends Module
         if($availableQty > 0 && $availableQty <= $alertQuantity) {
             return $this->display(__FILE__,'alert.tpl');
         }
-
     }
+
+    public function hookDisplayProductAdditionalInfo($params) {
+        return $this->hookDisplayProductListReviews($params);
+    }
+    
 }
